@@ -23,25 +23,52 @@ export const Contact = () => {
         })
     }
 
-    const handleSubmit = async (e) => {
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         setButtonText("Sending...");
-        let response = await fetch("http://localhost:5000/contact", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            body: JSON.stringify(formDetails),
-        });
-        setButtonText("Send");
-        let result = await response.json();
+    
+        // Save form details to local storage
+        localStorage.setItem('formDetails', JSON.stringify(formDetails));
+    
+        // Optionally, you can clear the form details and display a success message
         setFormDetails(formInitialDetails);
-        if (result.code == 200) {
-            setStatus({ succes: true, message: 'Message sent successfully'});
-        } else {
-            setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
-        }
+        setStatus({ success: true, message: 'Form details saved successfully.' });
+        setButtonText("Send");
     };
+
+    
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setButtonText("Sending...");
+    //     localStorage.setItem('formDetails', JSON.stringify(formDetails));
+    //     try {
+    //         let response = await fetch("http://localhost:5000/contact", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json;charset=utf-8",
+    //             },
+    //             body: JSON.stringify(formDetails),
+    //         });
+    
+    //         let result = await response.json();
+    //         setButtonText("Send");
+    //         setFormDetails(formInitialDetails);
+    
+    //         if (result.code === 200) {
+    //             setStatus({ success: true, message: 'Message sent successfully' });
+    //         } else {
+    //             setStatus({ success: false, message: 'Something went wrong, please try again later.' });
+    //         }
+    //     } catch (error) {
+    //         // Handle network errors
+    //         console.error("Error:", error);
+    //         setButtonText("Send");
+    //         setStatus({ success: false, message: 'Failed to fetch. Please check your network connection.' });
+    //     }
+    // };
+    
+
 
     return (
         <section className="contact" id="connect">
@@ -93,3 +120,5 @@ export const Contact = () => {
         </section>
     )
 }
+
+
